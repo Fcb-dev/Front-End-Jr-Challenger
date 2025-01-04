@@ -21,5 +21,6 @@ body {
 }
 
 span, p, h1, h2, h3, h4 {
-  color: #000;
+  color: #42350d;
+  margin: 10px 0px;
 }

@@ -1,0 +1,28 @@
+.TextInput {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.LabelRoot {
+    font-weight: bold;
+    font-size: 14px;
+    color: #42350d;
+}
+
+.Input {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.InputError {
+    border-color: #f44336;
+}
+
+.errorText {
+    color: #f44336;
+    font-weight: bold;
+    font-size: 12px;
+}

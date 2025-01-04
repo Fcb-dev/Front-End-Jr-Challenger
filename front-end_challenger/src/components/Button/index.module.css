@@ -15,12 +15,12 @@
 
 /* Variantes */
 .buttonPrimary {
-    background-color: #01b7ff;
+    background-color: #75622a;
     color: white;
 }
 
 .buttonPrimary:hover:not(:disabled) {
-    background-color: #056a92;
+    background-color: #4e421c;
 }
 
 .buttonSuccess {
@@ -33,7 +33,7 @@
 }
 
 .buttonDanger {
-    background-color: #dc3545;
+    background-color: #f44336;
     color: white;
 }
 
@@ -55,4 +55,9 @@
 .large {
     font-size: 20px;
     padding: 17px 32px;
+}
+
+.errorButton {
+    background-color: #f44336;
+    cursor: not-allowed;
 }

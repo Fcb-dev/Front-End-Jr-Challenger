@@ -19,7 +19,7 @@
 
 .customTable thead th {
     background-color: #f4f4f4;
-    color: #333;
+    color: #42350d;
     border-bottom: 2px solid #ddd;
 }
 
@@ -33,26 +33,43 @@
 
 .customTable tbody td {
     border-bottom: 1px solid #ddd;
+    color: #42350d;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 10px;
 }
 
 /* Estilos do Dialog */
 .dialogContent {
     padding: 20px;
     background: white;
-    border-radius: 8px;
+    border-radius: 10px;
     width: 400px;
     z-index: 1;
     position: absolute;
     top: 10%;
 }
 
+.dialogRowContent {
+    background: #fff3ce;
+    padding: 5px 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px #d9d3c1;
+}
+
 .dialogTitle {
-    font-size: 18px;
+    font-size: 24px;
     font-weight: bold;
+    margin: 0;
+    text-align: center;
 }
 
 .dialogDescription {
     font-size: 16px;
+    margin-top: 0;
+    margin: 5px;
 }
 
 .dialogOverlay {
@@ -67,7 +84,7 @@
     border-radius: 100%;
     height: 25px;
     width: 25px;
-    color: #c4c4c4;
+    color: #42350d;
     position: absolute;
     top: 10px;
     right: 10px;

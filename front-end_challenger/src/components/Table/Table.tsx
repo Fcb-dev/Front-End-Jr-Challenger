@@ -1,24 +1,20 @@
 import React, { useState } from "react";
+import { Button } from "../Button/Button";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import styles from "./index.module.css";
 
-interface Book {
-  id: number;
-  name: string;
-  author: string;
-  year: number;
+// Garantir que 'accessor' é apenas string ou number
+interface TableProps<T extends Record<string, React.ReactNode>> {
+  data: T[];
+  columns: Array<{ label: string; accessor: keyof T }>;
 }
 
-interface TableProps {
-  data: Book[];
-}
+export const Table = <T extends Record<string, React.ReactNode>>({ data, columns }: TableProps<T>) => {
+  const [selectedRow, setSelectedRow] = useState<T | null>(null);
 
-const Table: React.FC<TableProps> = ({ data }) => {
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null); // Estado para armazenar o livro selecionado
-
-  const handleRowClick = (book: Book) => {
-    setSelectedBook(book); // Atualiza o estado com o livro selecionado
+  const handleRowClick = (row: T) => {
+    setSelectedRow(row);
   };
 
   return (
@@ -26,26 +22,23 @@ const Table: React.FC<TableProps> = ({ data }) => {
       <table className={styles.customTable}>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Título</th>
-            <th>Autor</th>
-            <th>Ano</th>
+            {columns.map((column) => (
+              <th key={String(column.accessor)}>{column.label}</th> // Usando String para garantir que seja uma chave válida
+            ))}
           </tr>
         </thead>
         <tbody>
-          {data.map((row) => (
-            <tr key={row.id} onClick={() => handleRowClick(row)}>
-              <td>{row.id}</td>
-              <td>{row.name}</td>
-              <td>{row.author}</td>
-              <td>{row.year}</td>
+          {data.map((row, index) => (
+            <tr key={index} onClick={() => handleRowClick(row)}>
+              {columns.map((column) => (
+                <td key={String(column.accessor)}>{row[column.accessor]}</td> // Usando String para garantir que seja uma chave válida
+              ))}
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Dialog de detalhes do livro */}
-      <Dialog.Root open={!!selectedBook} onOpenChange={() => setSelectedBook(null)} modal={true}>
+      <Dialog.Root open={!!selectedRow} onOpenChange={() => setSelectedRow(null)} modal={true}>
         <Dialog.Trigger asChild>
           <button style={{ display: "none" }}>Abrir Dialog</button>
         </Dialog.Trigger>
@@ -58,21 +51,27 @@ const Table: React.FC<TableProps> = ({ data }) => {
               </button>
             </Dialog.Close>
             <Dialog.Title className={styles.dialogTitle}>Detalhes do Livro</Dialog.Title>
-            <Dialog.Description className={styles.dialogDescription}>
-              {selectedBook && (
-                <div>
-                  <p><strong>ID:</strong> {selectedBook.id}</p>
-                  <p><strong>Título:</strong> {selectedBook.name}</p>
-                  <p><strong>Autor:</strong> {selectedBook.author}</p>
-                  <p><strong>Ano:</strong> {selectedBook.year}</p>
-                </div>
-              )}
-            </Dialog.Description>
+            <Dialog.Description className={styles.dialogDescription}></Dialog.Description>
+            {selectedRow && (
+              <div className={styles.dialogRowContent}>
+                {columns.map((column) => (
+                  <p key={String(column.accessor)}>
+                    <strong>{column.label}:</strong> {selectedRow[column.accessor]}
+                  </p>
+                ))}
+              </div>
+            )}
+            <div className={styles.footer}>
+              <Button
+                type="submit"
+                onClick={() => {}}
+                label="Excluir"
+                variant="danger"
+              />
+            </div>
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
     </div>
-  );
-};
-
-export default Table;
+  )
+}
