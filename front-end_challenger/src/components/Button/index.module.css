@@ -1,0 +1,58 @@
+.button {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Variantes */
+.buttonPrimary {
+    background-color: #01b7ff;
+    color: white;
+}
+
+.buttonPrimary:hover:not(:disabled) {
+    background-color: #056a92;
+}
+
+.buttonSuccess {
+    background-color: #0bc12a;
+    color: white;
+}
+
+.buttonSuccess:hover:not(:disabled) {
+    background-color: #0a8d20;
+}
+
+.buttonDanger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.buttonDanger:hover:not(:disabled) {
+    background-color: #bd2130;
+}
+
+/* Tamanhos */
+.small {
+    font-size: 12px;
+    padding: 7px 12px;
+}
+
+.medium {
+    font-size: 16px;
+    padding: 12px 20px;
+}
+
+.large {
+    font-size: 20px;
+    padding: 17px 32px;
+}
