@@ -1,44 +1,54 @@
 .button {
-    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-family: "Kanit", serif;;
     font-size: 16px;
     padding: 12px 20px;
     border: none;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    min-width: 185px;
+    width: 100%;
+}
+
+.button span {
+    color: var(--bg-secondary-color);
+    margin: 3px !important;
 }
 
 .button:disabled {
-    background-color: #ccc;
+    background-color: var(--disabled-color);
     cursor: not-allowed;
 }
 
 /* Variantes */
 .buttonPrimary {
-    background-color: #75622a;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--bg-secondary-color);
 }
 
 .buttonPrimary:hover:not(:disabled) {
-    background-color: #4e421c;
+    background-color: var(--secondary-color);
 }
 
 .buttonSuccess {
-    background-color: #0bc12a;
+    background-color: var(--success-color);
     color: white;
 }
 
 .buttonSuccess:hover:not(:disabled) {
-    background-color: #0a8d20;
+    filter: brightness(0.7);
 }
 
 .buttonDanger {
-    background-color: #f44336;
-    color: white;
+    background-color: var(--danger-color);
+    color: var(--bg-secondary-color);
 }
 
 .buttonDanger:hover:not(:disabled) {
-    background-color: #bd2130;
+    filter: brightness(0.7);
 }
 
 /* Tamanhos */
@@ -58,6 +68,24 @@
 }
 
 .errorButton {
-    background-color: #f44336;
+    background-color: var(--danger-color);
     cursor: not-allowed;
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 0.5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+  
+.button span + .icon {
+    margin-right: 0;
+    margin-left: 0.5rem;
+}
+
+.button span svg {
+    height: 18px;
+    width: 18px;
 }

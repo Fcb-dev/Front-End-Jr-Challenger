@@ -7,22 +7,23 @@
 .LabelRoot {
     font-weight: bold;
     font-size: 14px;
-    color: #42350d;
+    color: var(--secondary-color);
 }
 
 .Input {
     padding: 8px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: var(--border);
     border-radius: 4px;
 }
 
 .InputError {
-    border-color: #f44336;
+    border-color: var(--danger-color);
 }
 
 .errorText {
-    color: #f44336;
+    color: var(--danger-color);
     font-weight: bold;
     font-size: 12px;
+    margin: 0;
 }

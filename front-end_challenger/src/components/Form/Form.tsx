@@ -1,64 +1,63 @@
-import React, { useEffect, useState } from "react";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm, SubmitHandler, FieldValues, Path } from "react-hook-form";
 import { TextInput } from "../TextInput/TextInput";
 import { Button } from "../Button/Button";
 import styles from "./index.module.css";
+import { Pencil2Icon } from "@radix-ui/react-icons";
 
-interface Field {
-  name: string;
+interface Field<T> {
+  name: Path<T>;
   label: string;
   type: string;
   validation?: object;
 }
 
-interface FormProps {
-  onSubmit: (data: FieldValues) => void;
-  fields: Field[];
+interface FormProps<T> {
+  onSubmit: (data: T) => void;
+  fields: Field<T>[];
 }
 
-export const Form: React.FC<FormProps> = ({ onSubmit, fields }) => {
-  const { register, handleSubmit, reset, formState: { errors, isValid } } = useForm<FieldValues>({
-    mode: "onChange",
-    reValidateMode: "onChange"
-  });
-  const [isFormValid, setIsFormValid] = useState(false);
+export const Form = <T extends FieldValues>({ onSubmit, fields }: FormProps<T>) => {
+    const { register, handleSubmit, reset, formState: { errors, isValid } } = useForm<T>({
+        mode: "onChange",
+        reValidateMode: "onChange",
+    });
+   
+    const [isFormValid, setIsFormValid] = useState(false);
 
-  const handleFormSubmit: SubmitHandler<FieldValues> = (data) => {
-    const storedBooks = JSON.parse(localStorage.getItem("books") || "[]");
+    const handleFormSubmit: SubmitHandler<T> = (data) => {
+        onSubmit(data);
+        reset();
+    };
 
-    storedBooks.push(data);
-    localStorage.setItem("books", JSON.stringify(storedBooks));
+    useEffect(() => {
+        setIsFormValid(isValid);
+    }, [isValid]);
 
-    onSubmit(data);
-    reset();
-  };
-
-  useEffect(() => {
-    setIsFormValid(isValid);
-  }, [isValid]);
-
-  return (
-    <form className={styles.form}>
-      {fields.map((field) => (
-        <div key={field.name} className={styles.inputGroup}>
-          <TextInput
-            label={field.label}
-            type={field.type}
-            id={field.name}
-            error={!!errors[field.name]}
-            helperText={String(errors[field.name]?.message)}
-            {...register(field.name, field.validation)}
+    return (
+        <form className={styles.form}>
+          {fields.map((field) => (
+            <div key={field.name} className={styles.inputGroup}>
+              <TextInput
+                label={field.label}
+                type={field.type}
+                id={field.name}
+                error={!!errors[field.name]}
+                helperText={String(errors[field.name]?.message)}
+                {...register(field.name, field.validation)}
+              />
+            </div>
+          ))}
+   
+          <Button
+            type="submit"
+            label="Adicionar"
+            variant="success"
+            onClick={handleSubmit(handleFormSubmit)}
+            disabled={!isFormValid}
+            icon={<Pencil2Icon />}
+            iconPosition="left"
           />
-        </div>
-      ))}
-
-      <Button
-        type="submit"
-        onClick={handleSubmit(handleFormSubmit)}
-        label="Adicionar"
-        variant="success"
-        disabled={!isFormValid}
-      />
-    </form>
-  );
+        </form>
+      );
 };

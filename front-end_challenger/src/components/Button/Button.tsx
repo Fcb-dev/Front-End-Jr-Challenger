@@ -9,6 +9,8 @@ interface ButtonProps {
   disabled?: boolean;
   type: "button" | "submit";
   error?: boolean; // Novo prop para passar o erro
+  icon?: React.ReactNode; // Novo prop para o ícone
+  iconPosition?: "left" | "right"; // Posição do ícone
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -21,6 +23,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       disabled = false,
       type,
       error = false, // Usar prop error
+      icon,
+      iconPosition = "left", // Posição do ícone padrão
     },
     ref
   ) => {
@@ -36,7 +40,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         ref={ref} // Encaminha o ref para o elemento botão
       >
-        {label}
+        {icon && iconPosition === "left" && <span className={styles.icon}>{icon}</span>}
+        <span>{label}</span>
+        {icon && iconPosition === "right" && <span className={styles.icon}>{icon}</span>}
       </button>
     );
   }

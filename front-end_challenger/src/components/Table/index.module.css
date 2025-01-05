@@ -1,14 +1,15 @@
 .tableContainer {
-    margin: 20px auto;
+    margin: 5px auto 20px;
     overflow-x: auto;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px #bdbdbd;
+    box-shadow: var(--box-shadow);
 }
   
 .customTable {
     width: 100%;
     border-collapse: collapse;
-    font-family: Arial, sans-serif;
+    font-family: "Kanit", serif;
+    backdrop-filter: blur(10px);
 }
 
 .customTable th,
@@ -18,45 +19,54 @@
 }
 
 .customTable thead th {
-    background-color: #f4f4f4;
-    color: #42350d;
-    border-bottom: 2px solid #ddd;
+    background-color: var(--bg-secondary-color);
+    color: var(--secondary-color);
+    border-bottom: var(--border);
 }
 
 .customTable tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
+    background-color: var(--bg-secondary-color);
 }
 
 .customTable tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: var(--bg-secondary-color);
+    filter: brightness(0.9);
+    cursor: pointer;
 }
 
 .customTable tbody td {
-    border-bottom: 1px solid #ddd;
-    color: #42350d;
+    border-bottom: var(--border);
+    color: var(--secondary-color);;
 }
 
 .footer {
-    text-align: center;
+    display: flex;
+    justify-content: center;
     margin-top: 10px;
 }
 
 /* Estilos do Dialog */
 .dialogContent {
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    width: 400px;
+    position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 90vw;
+	max-width: 450px;
+	max-height: 85vh;
+	padding: 25px;
+    background-color: var(--bg-secondary-color);;
     z-index: 1;
     position: absolute;
-    top: 10%;
+    border-radius: 10px;
+    animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dialogRowContent {
-    background: #fff3ce;
+    background: var(--bg-color);;
     padding: 5px 20px;
     border-radius: 10px;
-    box-shadow: inset 0 0 10px #d9d3c1;
+    box-shadow: var(--box-inset-shadow);
 }
 
 .dialogTitle {
@@ -64,6 +74,7 @@
     font-weight: bold;
     margin: 0;
     text-align: center;
+    padding-bottom: 5px;
 }
 
 .dialogDescription {
@@ -72,11 +83,35 @@
     margin: 5px;
 }
 
+.dialogAlertDescription {
+    font-size: 16px;
+    margin-top: 0;
+    margin: 5px;
+    text-align: center;
+}
+
 .dialogOverlay {
     backdrop-filter: brightness(0.5);
     height: 100vh;
     width: 100vw;
     position: fixed;
+    animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dialogAlertOverlay {
+    backdrop-filter: brightness(0.4);
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: 1;
+    animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dialogAlertFooter {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    padding-top: 10px;
 }
 
 .iconButton {
@@ -84,7 +119,7 @@
     border-radius: 100%;
     height: 25px;
     width: 25px;
-    color: #42350d;
+    color: var(--secondary-color);
     position: absolute;
     top: 10px;
     right: 10px;
@@ -94,4 +129,39 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.noDataMessage {
+    text-align: center !important;
+}
+
+.boxIconAlert {
+    text-align: center;
+    padding-top: 15px;
+}
+
+.iconAlert {
+    height: 100px;
+    width: 100%;
+    color: var(--danger-color);
+}
+
+@keyframes overlayShow {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes contentShow {
+	from {
+		opacity: 0;
+		transform: translate(-50%, -48%) scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
+	}
 }
