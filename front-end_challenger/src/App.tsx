@@ -11,7 +11,7 @@ import styles from "./app.module.css";
 interface BaseBook {
   id: number;
   name: string;
-  author_id: string;
+  author_id: number;
   pages?: number;
 }
 
@@ -63,10 +63,10 @@ export default function App() {
     return storedNextAuthorId ? parseInt(storedNextAuthorId, 10) : 1;
   });
 
-  const handleAddBook = (bookData: Omit<BaseBook, 'id'>) => {
+  const handleAddBook = (bookData: Omit<BaseBook, 'id'> & { author_id: number }) => {
     if (isAuthorView) return; // Se estiver na view de autores, não adiciona livro
 
-    const authorExists = authors.some(author => author.id === parseInt(bookData.author_id, 10));
+    const authorExists = authors.some(author => author.id === Number(bookData.author_id));
 
     if (!authorExists) {
       setOpenToast(true)
@@ -179,7 +179,7 @@ export default function App() {
               </button>
             </Dialog.Close>
             <Dialog.Title className={styles.dialogTitle}>
-              Adicionar Livro
+              Adicione um livro
             </Dialog.Title>
             <Dialog.DialogDescription className={styles.dialogDescription}>
               Mais um livro para sua coleção.
@@ -188,7 +188,7 @@ export default function App() {
               onSubmit={handleAddBook}
               fields={[
                 { name: "name", label: "Nome do Livro", type: "text", validation: { required: "O nome é obrigatório!" } },
-                { name: "author_id", label: "Autor", type: "number", validation: { required: "O ID do autor é obrigatório!" } },
+                { name: "author_id", label: "Autor", type: "number", validation: { required: "O ID do autor é obrigatório!" }, tooltip: true, tooltipText: "Informe o número identificador do autor. Não o nome" },
                 { name: "pages", label: "Páginas", type: "number" }
               ]}
             />
@@ -206,8 +206,11 @@ export default function App() {
               </button>
             </Dialog.Close>
             <Dialog.Title className={styles.dialogTitle}>
-              Adicionar Autor
+              Adicione um autor
             </Dialog.Title>
+            <Dialog.DialogDescription className={styles.dialogDescription}>
+              Os criadores das obras de arte.
+            </Dialog.DialogDescription>
             <Form
               onSubmit={handleAddAuthor}
               fields={[

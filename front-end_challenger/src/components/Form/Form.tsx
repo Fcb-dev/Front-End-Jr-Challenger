@@ -10,6 +10,8 @@ interface Field<T> {
   label: string;
   type: string;
   validation?: object;
+  tooltip?: boolean;
+  tooltipText?: string;
 }
 
 interface FormProps<T> {
@@ -44,6 +46,8 @@ export const Form = <T extends FieldValues>({ onSubmit, fields }: FormProps<T>) 
                 id={field.name}
                 error={!!errors[field.name]}
                 helperText={String(errors[field.name]?.message)}
+                tooltip={field.tooltip}
+                tooltipText={String(field.tooltipText)}
                 {...register(field.name, field.validation)}
               />
             </div>

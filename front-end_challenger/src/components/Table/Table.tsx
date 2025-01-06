@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "../Button/Button";
 import * as Dialog from "@radix-ui/react-dialog";
+import * as Toast from "@radix-ui/react-toast";
 import { ExclamationTriangleIcon, ResetIcon, TrashIcon } from "@radix-ui/react-icons";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
@@ -21,6 +22,7 @@ export const Table = <T extends Record<string, React.ReactNode>>({
 }: TableProps<T>) => {
   const [selectedRow, setSelectedRow] = useState<T | null>(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [openToast, setOpenToast] = useState(false);
 
   const handleRowClick = (row: T) => {
     setSelectedRow(row);
@@ -30,6 +32,22 @@ export const Table = <T extends Record<string, React.ReactNode>>({
     if (!selectedRow) return;
 
     const storedData: T[] = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    const books: T[] = JSON.parse(localStorage.getItem("books") || "[]");
+
+    const isAuthor = storageKey === "authors";
+
+    if(isAuthor) {
+      // Verificar se o autor selecionado está associado a algum livro
+      const isAuthorLinkedToBook = books.some(
+        (book) => book.author_id == selectedRow.id// Supondo que o campo seja `authorId`
+      );
+  
+      if (isAuthorLinkedToBook) {
+        setOpenToast(true)
+        return;
+      }
+    }
+    
     const updatedData = storedData.filter(
       (item) =>
         !columns.every(
@@ -151,6 +169,16 @@ export const Table = <T extends Record<string, React.ReactNode>>({
           </AlertDialog.Content>
         </AlertDialog.Portal>
       </AlertDialog.Root>
+
+      <Toast.Provider swipeDirection="right">
+        <Toast.Root className={styles.ToastRoot} open={openToast} onOpenChange={setOpenToast}>
+          <Toast.Title className={styles.ToastTitle}>Erro ao excluir</Toast.Title>
+          <Toast.Description className={styles.ToastDescription}>
+            Não é possível excluir esse autor, pois ele está associado a um ou mais livros!
+          </Toast.Description>
+        </Toast.Root>
+        <Toast.Viewport className={styles.ToastViewport} />
+      </Toast.Provider>
     </div>
   );
 };

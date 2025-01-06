@@ -62,7 +62,7 @@
 .dialogDescription {
   font-size: 14px;
   text-align: center;
-  margin-top: 0;
+  margin: 0px 0px 20px 0px;
   line-height: 0.7;
 }
 
@@ -149,7 +149,7 @@
 .ToastRoot {
 	background-color: var(--tertiary-color);
 	border-radius: var(--border-radius);
-	box-shadow: var(--box-shadow);
+	box-shadow: var(--box-black-shadow);
 	padding: 15px;
 	display: grid;
 	grid-template-areas: "title action" "description action";
@@ -233,4 +233,14 @@
 .mainFooter span {
   font-weight: bold;
   color: var(--secondary-color);;
+}
+
+@media screen and (max-width: 578px) {
+  .headerBetween {
+    flex-direction: column;
+    align-items: center;
+  }
+  .container {
+    width: 95%;
+  }
 }
