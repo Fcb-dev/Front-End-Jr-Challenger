@@ -1,10 +1,44 @@
-.form {
+.Form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
 }
 
-.inputGroup {
+.InputGroup {
     display: flex;
     flex-direction: column;
+}
+
+.LabelRoot {
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.Input {
+    padding: 8px;
+    font-size: 14px;
+    border: var(--border);
+    border-radius: 4px;
+    background-color: var(--bg-secondary-color);
+}
+
+.InputError {
+    border-color: var(--danger-color);
+}
+
+.Placeholder {
+    color: var(--disabled-color);
+    padding: 8px;
+    font-size: 14px;
+    border: var(--border);
+    border-radius: 4px;
+    background-color: var(--bg-secondary-color);
+}
+
+.ErrorText {
+    color: var(--danger-color);
+    font-weight: bold;
+    font-size: 12px;
+    margin: 0;
 }

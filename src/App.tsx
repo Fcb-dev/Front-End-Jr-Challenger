@@ -1,11 +1,11 @@
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Switch from "@radix-ui/react-switch";
-import * as Toast from "@radix-ui/react-toast";
 import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
 import { Table } from "./components/Table/Table";
 import { Form } from "./components/Form/Form";
 import { Button } from "./components/Button/Button";
+import { Toaster } from "./components/Toast/Toast";
 import styles from "./app.module.css";
 
 interface BaseBook {
@@ -19,6 +19,14 @@ interface BaseAuthor {
   id: number;
   name: string;
   email?: string;
+}
+
+type ToastType = "error" | "success";
+
+interface ToastConfig {
+  type: ToastType;
+  title: string;
+  description: string;
 }
 
 type Book = Record<keyof BaseBook, React.ReactNode>;
@@ -42,6 +50,12 @@ export default function App() {
   const [modalRegisterAuthor, setModalRegisterAuthor] = useState(false);
   const [isAuthorView, setIsAuthorView] = useState(false);
   const [openToast, setOpenToast] = useState(false);
+
+  const [toastConfig, setToastConfig] = useState<ToastConfig>({
+    type: "error",
+    title: "",
+    description: "",
+  });
   
   const [books, setBooks] = useState<Book[]>(() => {
     const storedBooks = localStorage.getItem("books");
@@ -64,13 +78,18 @@ export default function App() {
   });
 
   const handleAddBook = (bookData: Omit<BaseBook, 'id'> & { author_id: number }) => {
-    if (isAuthorView) return; // Se estiver na view de autores, não adiciona livro
+    if (isAuthorView) return;
 
     const authorExists = authors.some(author => author.id === Number(bookData.author_id));
 
     if (!authorExists) {
+      setToastConfig({
+        type: "error",
+        title: "Nenhum autor com esse ID foi encontrado.",
+        description: "Cadastre um autor antes de atribuí-lo a um livro!"
+      });
       setOpenToast(true)
-      return; // Não adiciona o livro se o autor não existir
+      return;
     }
     
     const newBook: Book = {
@@ -89,10 +108,17 @@ export default function App() {
     localStorage.setItem("nextBookId", updatedNextBookId.toString());
 
     setModalRegisterBook(false);
+
+    setToastConfig({
+      type: "success",
+      title: "Livro inserido com sucesso!",
+      description: "O livro novo já está na sua coleção."
+    });
+    setOpenToast(true);
   };
 
   const handleAddAuthor = (authorData: Omit<BaseAuthor, 'id'>) => {
-    if (!isAuthorView) return; // Se não estiver na view de autores, não adiciona autor
+    if (!isAuthorView) return;
     
     const newAuthor: Author = {
       id: nextAuthorId,
@@ -109,6 +135,13 @@ export default function App() {
     localStorage.setItem("nextAuthorId", updatedNextAuthorId.toString());
 
     setModalRegisterAuthor(false);
+
+    setToastConfig({
+      type: "success",
+      title: "Autor inserido com sucesso!",
+      description: "O autor novo já está disponível."
+    });
+    setOpenToast(true);
   };
 
   const handleSwitchChange = (checked: boolean) => {
@@ -118,11 +151,11 @@ export default function App() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.Container}>
       <div className={styles.w800}>
-        <div className={styles.headerBetween}>
+        <div className={styles.HeaderBetween}>
           <form>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div className={styles.BoxHeader}>
               <label className={styles.LeftLabel} htmlFor="change-table">
                 Livros
               </label>
@@ -139,8 +172,8 @@ export default function App() {
               </label>
             </div>
           </form>
-          <h1 className={styles.title}>{isAuthorView ? "Listagem de Autores" : "Coleção de Livros"}</h1>
-          <div className={styles.buttonAdd}>
+          <h1 className={styles.Title}>{isAuthorView ? "Listagem de Autores" : "Coleção de Livros"}</h1>
+          <div className={styles.ButtonAdd}>
             <Button
               type="button"
               onClick={() => isAuthorView ? setModalRegisterAuthor(true) : setModalRegisterBook(true)}
@@ -171,25 +204,51 @@ export default function App() {
 
       <Dialog.Root open={modalRegisterBook} onOpenChange={setModalRegisterBook}>
         <Dialog.Portal>
-          <Dialog.Overlay className={styles.dialogOverlay} />
-          <Dialog.Content className={styles.dialogContent}>
+          <Dialog.Overlay className={styles.DialogOverlay} />
+          <Dialog.Content className={styles.DialogContent}>
             <Dialog.Close asChild>
-              <button className={styles.iconButton} aria-label="Fechar">
+              <button className={styles.IconButton} aria-label="Fechar">
                 <Cross2Icon />
               </button>
             </Dialog.Close>
-            <Dialog.Title className={styles.dialogTitle}>
+            <Dialog.Title className={styles.DialogTitle}>
               Adicione um livro
             </Dialog.Title>
-            <Dialog.DialogDescription className={styles.dialogDescription}>
+            <Dialog.DialogDescription className={styles.DialogDescription}>
               Mais um livro para sua coleção.
             </Dialog.DialogDescription>
             <Form
               onSubmit={handleAddBook}
               fields={[
-                { name: "name", label: "Nome do Livro", type: "text", validation: { required: "O nome é obrigatório!" } },
-                { name: "author_id", label: "Autor", type: "number", validation: { required: "O ID do autor é obrigatório!" }, tooltip: true, tooltipText: "Informe o número identificador do autor. Ex: 1,2 ..." },
-                { name: "pages", label: "Páginas", type: "number" }
+                { 
+                  name: "name", 
+                  label: "Nome do Livro",
+                  placeholder: "Digite o nome do livro",
+                  type: "text", 
+                  validation: { required: "O nome é obrigatório!" }
+                },
+                { 
+                  name: "author_id", 
+                  label: "Autor", 
+                  type: "select",
+                  placeholder: "Selecione um autor",
+                  options: authors.length > 0 
+                    ? [
+                        { label: "Selecione um autor", value: "", disabled: true },
+                        ...authors.map((author) => ({
+                          label: author.name as string, 
+                          value: Number(author.id)
+                        }))
+                      ]
+                    : [{ label: "Nenhum autor cadastrado", value: "", disabled: true }],
+                  validation: { required: "O ID do autor é obrigatório!" }
+                },
+                { 
+                  name: "pages", 
+                  label: "Páginas",
+                  placeholder: "Ex: 1024",
+                  type: "number" 
+                }
               ]}
             />
           </Dialog.Content>
@@ -198,41 +257,52 @@ export default function App() {
 
       <Dialog.Root open={modalRegisterAuthor} onOpenChange={setModalRegisterAuthor}>
         <Dialog.Portal>
-          <Dialog.Overlay className={styles.dialogOverlay} />
-          <Dialog.Content className={styles.dialogContent}>
+          <Dialog.Overlay className={styles.DialogOverlay} />
+          <Dialog.Content className={styles.DialogContent}>
             <Dialog.Close asChild>
-              <button className={styles.iconButton} aria-label="Fechar">
+              <button className={styles.IconButton} aria-label="Fechar">
                 <Cross2Icon />
               </button>
             </Dialog.Close>
-            <Dialog.Title className={styles.dialogTitle}>
+            <Dialog.Title className={styles.DialogTitle}>
               Adicione um autor
             </Dialog.Title>
-            <Dialog.DialogDescription className={styles.dialogDescription}>
+            <Dialog.DialogDescription className={styles.DialogDescription}>
               Os criadores das obras de arte.
             </Dialog.DialogDescription>
             <Form
               onSubmit={handleAddAuthor}
               fields={[
-                { name: "name", label: "Nome do Autor", type: "text", validation: { required: "O nome é obrigatório!" } },
-                { name: "email", label: "E-mail", type: "email" }
+                { 
+                  name: "name",
+                  label: "Nome do Autor",
+                  placeholder: "Digite o nome do autor",
+                  type: "text",
+                  validation: {
+                    required: "O nome é obrigatório!"
+                  }
+                },
+                { 
+                  name: "email",
+                  label: "E-mail",
+                  placeholder: "Digite um email",
+                  type: "text"
+                }
               ]}
             />
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
 
-      <Toast.Provider swipeDirection="right">
-        <Toast.Root className={styles.ToastRoot} open={openToast} onOpenChange={setOpenToast}>
-          <Toast.Title className={styles.ToastTitle}>Nenhum autor com esse ID foi encontrado.</Toast.Title>
-          <Toast.Description className={styles.ToastDescription}>
-            Cadastre um autor antes de atribuí-lo a um livro! 
-          </Toast.Description>
-        </Toast.Root>
-        <Toast.Viewport className={styles.ToastViewport} />
-      </Toast.Provider>
+      <Toaster
+        open={openToast}
+        setOpen={setOpenToast}
+        type={toastConfig.type}
+        title={toastConfig.title}
+        description={toastConfig.description}
+      />
 
-      <div className={styles.mainFooter}>Desenvolvido por <span>Felipe Bernardo.</span></div>
+      <div className={styles.MainFooter}>Desenvolvido por <span>Felipe Bernardo.</span></div>
     </div>
   );
 }

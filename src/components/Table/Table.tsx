@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "../Button/Button";
+import { Toaster } from "../Toast/Toast";
 import * as Dialog from "@radix-ui/react-dialog";
-import * as Toast from "@radix-ui/react-toast";
 import { ExclamationTriangleIcon, ResetIcon, TrashIcon } from "@radix-ui/react-icons";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
@@ -14,6 +14,14 @@ interface TableProps<T extends Record<string, React.ReactNode>> {
   onDataChange: (updatedData: T[]) => void;
 }
 
+type ToastType = "error" | "success";
+
+interface ToastConfig {
+  type: ToastType;
+  title: string;
+  description: string;
+}
+
 export const Table = <T extends Record<string, React.ReactNode>>({
   data,
   columns,
@@ -23,6 +31,11 @@ export const Table = <T extends Record<string, React.ReactNode>>({
   const [selectedRow, setSelectedRow] = useState<T | null>(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [openToast, setOpenToast] = useState(false);
+  const [toastConfig, setToastConfig] = useState<ToastConfig>({
+    type: "error",
+    title: "",
+    description: "",
+  });
 
   const handleRowClick = (row: T) => {
     setSelectedRow(row);
@@ -37,12 +50,16 @@ export const Table = <T extends Record<string, React.ReactNode>>({
     const isAuthor = storageKey === "authors";
 
     if(isAuthor) {
-      // Verificar se o autor selecionado está associado a algum livro
       const isAuthorLinkedToBook = books.some(
-        (book) => book.author_id == selectedRow.id// Supondo que o campo seja `authorId`
+        (book) => book.author_id == selectedRow.id
       );
   
       if (isAuthorLinkedToBook) {
+        setToastConfig({
+          type: "error",
+          title: "Erro ao excluir",
+          description: "Não é possível excluir esse autor, pois ele está associado a um ou mais livros!"
+        });
         setOpenToast(true)
         return;
       }
@@ -60,6 +77,20 @@ export const Table = <T extends Record<string, React.ReactNode>>({
 
     setSelectedRow(null);
     setIsAlertOpen(false);
+    if(storageKey === "books"){
+      setToastConfig({
+        type: "success",
+        title: "Excluído com sucesso!",
+        description: "O livro foi excluído com sucesso!"
+      });
+    }else {
+      setToastConfig({
+        type: "success",
+        title: "Excluído com sucesso!",
+        description: "O autor foi excluído com sucesso!"
+      });
+    }
+    setOpenToast(true)
   };
 
   const openAlertDialog = () => {
@@ -67,8 +98,8 @@ export const Table = <T extends Record<string, React.ReactNode>>({
   };
 
   return (
-    <div className={styles.tableContainer}>
-      <table className={styles.customTable}>
+    <div className={styles.TableContainer}>
+      <table className={styles.CustomTable}>
         <thead>
           <tr>
             {columns.map((column) => (
@@ -87,7 +118,7 @@ export const Table = <T extends Record<string, React.ReactNode>>({
             ))
           ) : (
             <tr>
-              <td colSpan={columns.length} className={styles.noDataMessage}>
+              <td colSpan={columns.length} className={styles.NoDataMessage}>
                 Nenhum dado para ser exibido.
               </td>
             </tr>
@@ -100,16 +131,16 @@ export const Table = <T extends Record<string, React.ReactNode>>({
           <button style={{ display: "none" }}>Abrir Dialog</button>
         </Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Overlay className={styles.dialogOverlay} />
-          <Dialog.Content className={styles.dialogContent}>
+          <Dialog.Overlay className={styles.DialogOverlay} />
+          <Dialog.Content className={styles.DialogContent}>
             <Dialog.Close asChild>
-              <button className={styles.iconButton} aria-label="Fechar">
+              <button className={styles.IconButton} aria-label="Fechar">
                 <Cross2Icon />
               </button>
             </Dialog.Close>
-            <Dialog.Title className={styles.dialogTitle}>Detalhes do Livro</Dialog.Title>
+            <Dialog.Title className={styles.DialogTitle}>{storageKey === "books" ? "Detalhes do livro" : "Detalhes do autor"}</Dialog.Title>
             {selectedRow && (
-              <div className={styles.dialogRowContent}>
+              <div className={styles.DialogRowContent}>
                 {columns.map((column) => (
                   <p key={String(column.accessor)}>
                     <strong>{column.label}:</strong> {selectedRow[column.accessor]}
@@ -117,7 +148,7 @@ export const Table = <T extends Record<string, React.ReactNode>>({
                 ))}
               </div>
             )}
-            <div className={styles.footer}>
+            <div className={styles.Footer}>
               <Button
                 type="button"
                 onClick={openAlertDialog}
@@ -133,18 +164,18 @@ export const Table = <T extends Record<string, React.ReactNode>>({
 
       <AlertDialog.Root open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialog.Portal>
-          <AlertDialog.Overlay className={styles.dialogAlertOverlay} />
-          <AlertDialog.Content className={styles.dialogContent}>
-            <AlertDialog.Title className={styles.dialogTitle}>
+          <AlertDialog.Overlay className={styles.DialogAlertOverlay} />
+          <AlertDialog.Content className={styles.DialogContent}>
+            <AlertDialog.Title className={styles.DialogTitle}>
               Tem certeza que deseja excluir?
             </AlertDialog.Title>
-            <div className={styles.boxIconAlert}>
-              <ExclamationTriangleIcon className={styles.iconAlert}/>
+            <div className={styles.BoxIconAlert}>
+              <ExclamationTriangleIcon className={styles.IconAlert}/>
             </div>
-            <AlertDialog.Description className={styles.dialogAlertDescription}>
+            <AlertDialog.Description className={styles.DialogAlertDescription}>
               Essa ação não pode ser desfeita.
             </AlertDialog.Description>
-            <div className={styles.dialogAlertFooter}>
+            <div className={styles.DialogAlertFooter}>
               <AlertDialog.Cancel asChild>
                 <Button
                   type="button"
@@ -170,15 +201,13 @@ export const Table = <T extends Record<string, React.ReactNode>>({
         </AlertDialog.Portal>
       </AlertDialog.Root>
 
-      <Toast.Provider swipeDirection="right">
-        <Toast.Root className={styles.ToastRoot} open={openToast} onOpenChange={setOpenToast}>
-          <Toast.Title className={styles.ToastTitle}>Erro ao excluir</Toast.Title>
-          <Toast.Description className={styles.ToastDescription}>
-            Não é possível excluir esse autor, pois ele está associado a um ou mais livros!
-          </Toast.Description>
-        </Toast.Root>
-        <Toast.Viewport className={styles.ToastViewport} />
-      </Toast.Provider>
+      <Toaster
+        open={openToast}
+        setOpen={setOpenToast}
+        type={toastConfig.type}
+        title={toastConfig.title}
+        description={toastConfig.description}
+      />
     </div>
   );
 };

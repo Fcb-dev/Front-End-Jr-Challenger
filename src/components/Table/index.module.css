@@ -1,52 +1,51 @@
-.tableContainer {
+.TableContainer {
     margin: 5px auto 20px;
     overflow-x: auto;
     border-radius: 10px;
     box-shadow: var(--box-shadow);
 }
   
-.customTable {
+.CustomTable {
     width: 100%;
     border-collapse: collapse;
     font-family: "Kanit", serif;
     backdrop-filter: blur(10px);
 }
 
-.customTable th,
-.customTable td {
+.CustomTable th,
+.CustomTable td {
     padding: 12px 15px;
     text-align: left;
 }
 
-.customTable thead th {
+.CustomTable thead th {
     background-color: var(--bg-secondary-color);
     color: var(--secondary-color);
     border-bottom: var(--border);
 }
 
-.customTable tbody tr:nth-child(odd) {
+.CustomTable tbody tr:nth-child(odd) {
     background-color: var(--bg-secondary-color);
 }
 
-.customTable tbody tr:hover {
+.CustomTable tbody tr:hover {
     background-color: var(--bg-secondary-color);
     filter: brightness(0.9);
     cursor: pointer;
 }
 
-.customTable tbody td {
+.CustomTable tbody td {
     border-bottom: var(--border);
     color: var(--secondary-color);;
 }
 
-.footer {
+.Footer {
     display: flex;
     justify-content: center;
     margin-top: 10px;
 }
 
-/* Estilos do Dialog */
-.dialogContent {
+.DialogContent {
     position: fixed;
 	top: 50%;
 	left: 50%;
@@ -62,14 +61,14 @@
     animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dialogRowContent {
+.DialogRowContent {
     background: var(--bg-color);;
     padding: 5px 20px;
     border-radius: 10px;
     box-shadow: var(--box-inset-shadow);
 }
 
-.dialogTitle {
+.DialogTitle {
     font-size: 24px;
     font-weight: bold;
     margin: 0;
@@ -77,20 +76,20 @@
     padding-bottom: 5px;
 }
 
-.dialogDescription {
+.DialogDescription {
     font-size: 16px;
     margin-top: 0;
     margin: 5px;
 }
 
-.dialogAlertDescription {
+.DialogAlertDescription {
     font-size: 16px;
     margin-top: 0;
     margin: 5px;
     text-align: center;
 }
 
-.dialogOverlay {
+.DialogOverlay {
     backdrop-filter: brightness(0.5);
     height: 100vh;
     width: 100vw;
@@ -98,7 +97,7 @@
     animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dialogAlertOverlay {
+.DialogAlertOverlay {
     backdrop-filter: brightness(0.4);
     height: 100vh;
     width: 100vw;
@@ -107,14 +106,14 @@
     animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dialogAlertFooter {
+.DialogAlertFooter {
     display: flex;
     gap: 15px;
     justify-content: center;
     padding-top: 10px;
 }
 
-.iconButton {
+.IconButton {
     font-family: inherit;
     border-radius: 100%;
     height: 25px;
@@ -125,22 +124,22 @@
     right: 10px;
 }
 
-.iconButton svg {
+.IconButton svg {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.noDataMessage {
+.NoDataMessage {
     text-align: center !important;
 }
 
-.boxIconAlert {
+.BoxIconAlert {
     text-align: center;
     padding-top: 15px;
 }
 
-.iconAlert {
+.IconAlert {
     height: 100px;
     width: 100%;
     color: var(--danger-color);
@@ -195,9 +194,11 @@
 	align-items: center;
   margin: 15px;
 }
+
 .ToastRoot[data-state="open"] {
 	animation: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .ToastRoot[data-state="closed"] {
 	animation: hide 100ms ease-in;
 }

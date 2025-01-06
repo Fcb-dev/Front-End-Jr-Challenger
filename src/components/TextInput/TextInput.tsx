@@ -8,16 +8,18 @@ interface TextInputProps {
   label: React.ReactNode;
   type: string;
   id: string;
+  placeholder: string;
   error: boolean;
   helperText?: string;
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   tooltip?: boolean;
   tooltipText?: string;
+  disabled?: boolean;
 }
 
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
-  ({ label, type, id, error, helperText, value, onChange, tooltip, tooltipText, ...inputProps }, ref) => {
+  ({ label, type, id, placeholder, error, helperText, value, onChange, tooltip, tooltipText, disabled = false, ...inputProps }, ref) => {
     return (
       <div className={styles.TextInput}>
         <div>
@@ -46,12 +48,14 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           className={`${styles.Input} ${error ? styles.InputError : ""}`}
           type={type}
           id={id}
+          placeholder={placeholder}
           ref={ref}
           value={value}
           onChange={onChange}
+          disabled={disabled}
           {...inputProps}
         />
-        {error && helperText && <span className={styles.errorText}>{helperText}</span>}
+        {error && helperText && <span className={styles.ErrorText}>{helperText}</span>}
       </div>
     );
   }

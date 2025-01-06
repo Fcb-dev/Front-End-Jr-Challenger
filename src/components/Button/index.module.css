@@ -1,78 +1,80 @@
-.button {
+.Button {
     display: flex;
     justify-content: center;
     align-content: center;
     font-family: "Kanit", serif;;
     font-size: 16px;
-    padding: 12px 20px;
+    padding: 10px 15px;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    min-width: 185px;
+    min-width: 160px;
     width: 100%;
 }
 
-.button span {
+.Button span {
     color: var(--bg-secondary-color);
-    margin: 3px !important;
+    margin: 0px;
 }
 
-.button:disabled {
+.Button .Icon {
+    margin-right: 5px !important;
+}
+
+.Button:disabled {
     background-color: var(--disabled-color);
     cursor: not-allowed;
 }
 
-/* Variantes */
-.buttonPrimary {
+.ButtonPrimary {
     background-color: var(--primary-color);
     color: var(--bg-secondary-color);
 }
 
-.buttonPrimary:hover:not(:disabled) {
+.ButtonPrimary:hover:not(:disabled) {
     background-color: var(--secondary-color);
 }
 
-.buttonSuccess {
+.ButtonSuccess {
     background-color: var(--success-color);
-    color: white;
+    color: var(--bg-secondary-color);
 }
 
-.buttonSuccess:hover:not(:disabled) {
+.ButtonSuccess:hover:not(:disabled) {
     filter: brightness(0.7);
 }
 
-.buttonDanger {
+.ButtonDanger {
     background-color: var(--danger-color);
     color: var(--bg-secondary-color);
 }
 
-.buttonDanger:hover:not(:disabled) {
+.ButtonDanger:hover:not(:disabled) {
     filter: brightness(0.7);
 }
 
-/* Tamanhos */
-.small {
+.Small {
     font-size: 12px;
     padding: 7px 12px;
 }
 
-.medium {
+.Medium {
     font-size: 16px;
     padding: 12px 20px;
 }
 
-.large {
+.Large {
     font-size: 20px;
     padding: 17px 32px;
 }
 
-.errorButton {
+.ErrorButton {
     background-color: var(--danger-color);
     cursor: not-allowed;
 }
 
-.icon {
+.Icon {
     display: inline-flex;
     align-items: center;
     margin-right: 0.5rem;
@@ -80,12 +82,12 @@
     margin-bottom: 0;
 }
   
-.button span + .icon {
+.Button span + .icon {
     margin-right: 0;
     margin-left: 0.5rem;
 }
 
-.button span svg {
+.Button span svg {
     height: 18px;
     width: 18px;
 }

@@ -8,9 +8,9 @@ interface ButtonProps {
   size?: "small" | "medium" | "large";
   disabled?: boolean;
   type: "button" | "submit";
-  error?: boolean; // Novo prop para passar o erro
-  icon?: React.ReactNode; // Novo prop para o ícone
-  iconPosition?: "left" | "right"; // Posição do ícone
+  error?: boolean;
+  icon?: React.ReactNode;
+  iconPosition?: "left" | "right";
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -22,27 +22,27 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = "medium",
       disabled = false,
       type,
-      error = false, // Usar prop error
+      error = false,
       icon,
-      iconPosition = "left", // Posição do ícone padrão
+      iconPosition = "left",
     },
     ref
   ) => {
-    const variantClass = styles[`button${variant[0].toUpperCase()}${variant.slice(1)}`];
+    const variantClass = styles[`Button${variant[0].toUpperCase()}${variant.slice(1)}`];
     const sizeClass = styles[size];
-    const buttonClasses = `${styles.button} ${variantClass || ""} ${sizeClass || ""} ${error ? styles.errorButton : ""}`;
+    const buttonClasses = `${styles.Button} ${variantClass || ""} ${sizeClass || ""} ${error ? styles.ErrorButton : ""}`;
 
     return (
       <button
         className={buttonClasses}
         onClick={onClick}
-        disabled={disabled || error} // Desabilitar caso haja erro
+        disabled={disabled || error}
         type={type}
-        ref={ref} // Encaminha o ref para o elemento botão
+        ref={ref}
       >
-        {icon && iconPosition === "left" && <span className={styles.icon}>{icon}</span>}
+        {icon && iconPosition === "left" && <span className={styles.Icon}>{icon}</span>}
         <span>{label}</span>
-        {icon && iconPosition === "right" && <span className={styles.icon}>{icon}</span>}
+        {icon && iconPosition === "right" && <span className={styles.Icon}>{icon}</span>}
       </button>
     );
   }
