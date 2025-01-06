@@ -50,7 +50,6 @@ O **HomeBook** é um sistema simples para gerenciar livros e autores. Ele permit
 - `src/` - Contém os arquivos de código-fonte do projeto.
   - `components/` - Componentes reutilizáveis, incluindo tabelas e modais.
 - `index.css` - Estilos globais e variáveis.
-- `public/` - Contém arquivos públicos como favicon, imagens e outros assets estáticos.
 - `node_modules/` - Dependências instaladas pelo gerenciador de pacotes.
 
 ### Dependências
