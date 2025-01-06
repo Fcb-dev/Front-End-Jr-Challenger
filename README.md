@@ -68,3 +68,8 @@ O **HomeBook** é um sistema simples para gerenciar livros e autores. Ele permit
 1. Clone o repositório:
    ```bash
    git clone https://github.com/Fcb-dev/Front-End-Jr-Challenger
+   
+2. Após clonar o projeto, rode o comando:
+
+   yarn dev ou npm run dev.
+   
