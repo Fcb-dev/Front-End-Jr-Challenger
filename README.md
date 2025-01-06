@@ -70,5 +70,4 @@ O **HomeBook** é um sistema simples para gerenciar livros e autores. Ele permit
 ### Instalação
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seuusuario/homebook.git
-
+   git clone https://github.com/Fcb-dev/Front-End-Jr-Challenger
