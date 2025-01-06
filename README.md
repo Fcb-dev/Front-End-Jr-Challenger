@@ -49,23 +49,20 @@ O **HomeBook** é um sistema simples para gerenciar livros e autores. Ele permit
 ### Diretórios Principais
 - `src/` - Contém os arquivos de código-fonte do projeto.
   - `components/` - Componentes reutilizáveis, incluindo tabelas e modais.
-  - `hooks/` - Hooks personalizados usados para gerenciamento de estado e lógica.
-  - `services/` - Camada de comunicação com Local Storage.
-  - `styles/` - Estilos globais e específicos do projeto.
-  - `utils/` - Funções utilitárias e helpers.
+- `index.css` - Estilos globais e variáveis.
 - `public/` - Contém arquivos públicos como favicon, imagens e outros assets estáticos.
 - `node_modules/` - Dependências instaladas pelo gerenciador de pacotes.
 
 ### Dependências
 - React
-- Radix UI (opcional)
-- React Hook Form ou Formik (opcional)
+- Radix UI
+- React Hook Form
+- Typescript
 
 ## Configuração
 
 ### Pré-requisitos
-- Node.js (versão 16 ou superior)
-- Yarn ou NPM instalado
+- Yarn (Utilizado no projeto) ou NPM instalado
 
 ### Instalação
 1. Clone o repositório:
