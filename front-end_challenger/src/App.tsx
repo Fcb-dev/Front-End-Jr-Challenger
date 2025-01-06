@@ -188,7 +188,7 @@ export default function App() {
               onSubmit={handleAddBook}
               fields={[
                 { name: "name", label: "Nome do Livro", type: "text", validation: { required: "O nome é obrigatório!" } },
-                { name: "author_id", label: "Autor", type: "number", validation: { required: "O ID do autor é obrigatório!" }, tooltip: true, tooltipText: "Informe o número identificador do autor. Não o nome" },
+                { name: "author_id", label: "Autor", type: "number", validation: { required: "O ID do autor é obrigatório!" }, tooltip: true, tooltipText: "Informe o número identificador do autor. Ex: 1,2 ..." },
                 { name: "pages", label: "Páginas", type: "number" }
               ]}
             />
