@@ -53,6 +53,15 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           value={value}
           onChange={onChange}
           disabled={disabled}
+          onKeyDown={(e) => {
+            if (id === "pages" && !/[0-9]/.test(e.key) && 
+                e.key !== "Backspace" && 
+                e.key !== "Delete" && 
+                e.key !== "ArrowLeft" && 
+                e.key !== "ArrowRight") {
+              e.preventDefault();
+            }
+          }}
           {...inputProps}
         />
         {error && helperText && <span className={styles.ErrorText}>{helperText}</span>}
