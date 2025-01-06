@@ -88,7 +88,7 @@ export const Table = <T extends Record<string, React.ReactNode>>({
           ) : (
             <tr>
               <td colSpan={columns.length} className={styles.noDataMessage}>
-                Nenhum dado disponível.
+                Nenhum dado para ser exibido.
               </td>
             </tr>
           )}
