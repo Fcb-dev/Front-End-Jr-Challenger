@@ -62,7 +62,7 @@ O **HomeBook** é um sistema simples para gerenciar livros e autores. Ele permit
 ## Configuração
 
 ### Pré-requisitos
-- Yarn (Utilizado no projeto) ou NPM instalado
+- Yarn
 
 ### Instalação
 1. Clone o repositório:
@@ -71,5 +71,5 @@ O **HomeBook** é um sistema simples para gerenciar livros e autores. Ele permit
    
 2. Após clonar o projeto, rode o comando:
 
-   yarn dev ou npm run dev.
+   yarn dev
    
