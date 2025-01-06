@@ -25,14 +25,14 @@ O **HomeBook** é um sistema simples para gerenciar livros e autores. Ele permit
 - **Modais**
   - Modal para inserção de autor.
      - **ID** (número, obrigatório)
-    - **Nome** (string, obrigatório)
-    - **ID Autor** (número, obrigatório)
-    - **Páginas** (número, opcional) - (A não inserção de algum valor, resultada em "-")
+    - **Nome** (string, obrigatório) - input
+    - **ID Autor** (número, obrigatório) - select
+    - **Páginas** (número, opcional) - (A não inserção de algum valor, resultada em "-") - input
 
   - Modal para inserção de livro.
     - **ID** (número, obrigatório)
-    - **Nome** (string, obrigatório)
-    - **Email** (string, opcional) - (A não inserção de algum valor, resultada em "-")
+    - **Nome** (string, obrigatório) - input
+    - **Email** (string, opcional) - (A não inserção de algum valor, resultada em "-") -input
 
 ## Regras de Negócio
 
@@ -68,7 +68,8 @@ O **HomeBook** é um sistema simples para gerenciar livros e autores. Ele permit
    ```bash
    git clone https://github.com/Fcb-dev/Front-End-Jr-Challenger
    
-2. Após clonar o projeto, rode o comando:
+2. Após clonar o projeto, rode os comandos:
 
-   yarn dev
+   yarn install (Instalar todas as dependências do projeto)
+   yarn dev (Rodar o projeto)
    
